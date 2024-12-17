@@ -2,42 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
         #map {
-            height: 600px;
+            height: 100%;
             width: 100%;
+        }
+        #algorithmLabel {
+            position: absolute;
+            top: 80px; /* Adjust this value to move the label downward */
+            left: 10px;
+            z-index: 1000;
+            background-color: white;
+            padding: 5px;
+        }
+        #algorithmSelect {
+            position: absolute;
+            top: 110px; /* Adjust this value to move the dropdown downward */
+            left: 10px;
+            z-index: 1000;
+            background-color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Select Two Points to Find Shortest Path</h1>
     <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
+    <label id="algorithmLabel" for="algorithmSelect">Choose Algorithm:</label>
+    <select id="algorithmSelect">
+        <option value="DFS">DFS</option>
+        <option value="BFS">BFS</option>
+        <option value="Dijkstra">Dijkstra</option>
+        <option value="A Star">A Star</option>
+        <option value="Depth Limited DFS">Depth Limited DFS</option>
+    </select>
     <script>
         var map = L.map('map').setView([21.033, 105.825], 15);
 
-        // Load OSM tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var start_marker = null;
-        var end_marker = null;
         var click_coords = [];
+        var start_marker, end_marker, polyline;
 
-        // Handle map click event
         map.on('click', function(e) {
-            if (click_coords.length == 2) {
-                // Reset the markers and coordinates when 2 points are already clicked
-                map.removeLayer(start_marker);
-                map.removeLayer(end_marker);
+            if (click_coords.length >= 2) {
                 click_coords = [];
+                if (start_marker) map.removeLayer(start_marker);
+                if (end_marker) map.removeLayer(end_marker);
+                if (polyline) map.removeLayer(polyline);
             }
 
             var lat = e.latlng.lat;
@@ -50,21 +73,35 @@
             } else if (click_coords.length == 2) {
                 end_marker = L.marker([lat, lng]).addTo(map).bindPopup("End Point").openPopup();
 
-                // Send coordinates to the server to calculate the shortest path
+                // Get the selected algorithm from the dropdown list
+                var algorithm = document.getElementById('algorithmSelect').value;
+                var maxDepth = algorithm === 'Depth Limited DFS' ? prompt("Enter max depth:") : '0';
+
+                // Send coordinates and algorithm to the server to calculate the path
                 $.ajax({
                     url: "/find_shortest_path",
                     type: "POST",
                     contentType: "application/json",
-                    data: JSON.stringify({ start: click_coords[0], end: click_coords[1] }),
+                    data: JSON.stringify({
+                        start: click_coords[0],
+                        end: click_coords[1],
+                        algorithm: algorithm,
+                        max_depth: maxDepth
+                    }),
                     success: function(response) {
-                        // Draw the shortest path on the map
+                        // Draw the path on the map
                         var latlngs = response;
-                        var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+                        polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
                         map.fitBounds(polyline.getBounds());
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        alert("Error: " + error.responseJSON.error);
                     }
                 });
             }
         });
+
     </script>
 </body>
 </html>
