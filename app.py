@@ -6,14 +6,9 @@ from shortest_path_algorithms import *
 app = Flask(__name__)
 
 # Load the graph for the Kim Ma Ward, Hanoi (you can adjust this to your region)
-G = ox.load_graphml('data/graph.graphml') #("Ba Dinh District, Hanoi, Vietnam", network_type='all')
-
+G = ox.load_graphml('./data/graph.graphml') #("Kim Ma Ward, Ba Dinh District, Hanoi, Vietnam", network_type='all')
 @app.route('/')
 def index():
-    # Create a Folium map centered on Kim Ma, Hanoi
-    m = folium.Map(location=[21.033, 105.825], zoom_start=15)
-
-    # Save map to HTML and render it
     return render_template('index.html')
 
 algorithm_list = {
@@ -36,7 +31,7 @@ def find_shortest_path():
     
     func = algorithm_list.get(algorithm)
     if not func:
-        return jsonify({"error": "Invalid algorithm selected 1 2 3"}), 400
+        return jsonify({"error": "Invalid algorithm selected"}), 400
 
     # Calculate the path using the selected algorithm
     path_coords = []
