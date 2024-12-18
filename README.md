@@ -7,4 +7,7 @@ pip install -r requirements.txt
 ```
 
 ## TODO
-Create offline version
+Downloading tiles from openstreetmap
+
+## Note
+When commiting, remember to delete '/data' folder
