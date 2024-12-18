@@ -9,16 +9,11 @@ app = Flask(__name__)
 
 # Unzip the graphml file if neccessary
 if os.path.exists('./data/graph.graphml') == False: 
-    
-    #os.makedirs('data')
     print(os.getcwd())
     shutil.unpack_archive('data.zip', '.')
     print(os.getcwd())
     
 G = ox.load_graphml('./data/graph.graphml')
-def store_graph(G):
-    ox.save_graphml(G, './data/graph.graphml')
-store_graph(G)
 @app.route('/')
 def index():
     return render_template('index.html')
