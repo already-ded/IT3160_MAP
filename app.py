@@ -4,16 +4,22 @@ import networkx as nx
 import os
 import shutil
 from shortest_path_algorithms import *
+import gzip
+
 app = Flask(__name__)
 
 
 # Unzip the graphml file if neccessary
 if os.path.exists('./data/graph.graphml') == False: 
-    print(os.getcwd())
-    shutil.unpack_archive('data.zip', '.')
-    print(os.getcwd())
+    with gzip.open('./data/graph.graphml.gz', 'rb') as f_in:
+        with open('./data/graph.graphml', 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
     
 G = ox.load_graphml('./data/graph.graphml')
+
+# Ensure future commits don't have large file
+os.remove('./data/graph.graphml') 
+
 @app.route('/')
 def index():
     return render_template('index.html')
