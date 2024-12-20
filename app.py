@@ -8,7 +8,7 @@ from shortest_path_algorithms import *
 app = Flask(__name__)
 
 # Unzip the graphml file if neccessary
-if os.path.exists('./data/kimma.graphml') == False: 
+if os.path.exists('./data') == False: 
     shutil.unpack_archive('data.zip', '.')
 
 G = ox.load_graphml('./data/kimma.graphml')
