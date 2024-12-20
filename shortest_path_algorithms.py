@@ -78,6 +78,7 @@ def GFS(G, start_node, end_node):
             break
 
         for neighbor in G.neighbors(current_node):
+            print(neighbor)
             if neighbor not in visited:
                 priority = heuristic(G, neighbor, end_node)
                 q.put((priority, neighbor))

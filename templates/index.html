@@ -33,9 +33,19 @@
             border: none;
             cursor: pointer;
         }
-        #toggleButton {
+        #toggleNodes{
             position: absolute;
             top: 80px;
+            left: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        #togglePaths {
+            position: absolute;
+            top: 180px;
             left: 10px;
             z-index: 1000;
             background: white;
@@ -56,7 +66,8 @@
         <option value="Depth Limited DFS">Depth Limited DFS</option>
         <option value="Greedy Search">Greedy Search</option>
     </select>
-    <button id="toggleButton">Toggle Markers</button>
+    <button id="toggleNodes">Toggle Nodes</button>
+    <button id="togglePaths">Toggle Paths</button>
     <script>
         var map = L.map('map').setView([21.033, 105.825], 15);
 
@@ -66,24 +77,39 @@
 
         // Safely pass the Python `node_coords` data to JavaScript
         var nodes = JSON.parse('{{ node_coords|tojson|safe }}');
+        var paths = JSON.parse('{{ path_coords|tojson|safe }}');
 
         // Create a layer group for the markers
         var nodeMarkers = L.layerGroup();
+        var pathMarkers = L.layerGroup();
 
         // Add all node markers to the layer group
         nodes.forEach(function(coord) {
             var marker = L.marker(coord);
             marker.addTo(nodeMarkers);
         });
+        paths.forEach(function(path) {
+            var polyline = L.polyline(path, { color: 'blue' });
+            polyline.addTo(pathMarkers);
+        });
 
         // Add a toggle button for node markers
-        document.getElementById('toggleButton').addEventListener('click', function() {
+        document.getElementById('toggleNodes').addEventListener('click', function() {
             if (map.hasLayer(nodeMarkers)) {
                 map.removeLayer(nodeMarkers);
             } else {
                 map.addLayer(nodeMarkers);
             }
         });
+
+        document.getElementById('togglePaths').addEventListener('click', function() {
+            if (map.hasLayer(pathMarkers)) {
+                map.removeLayer(pathMarkers);
+            } else {
+                map.addLayer(pathMarkers);
+            }
+        });
+
 
         var click_coords = [];
         var start_marker, end_marker, polyline;

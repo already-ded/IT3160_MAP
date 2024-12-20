@@ -8,18 +8,27 @@ from shortest_path_algorithms import *
 app = Flask(__name__)
 
 # Unzip the graphml file if neccessary
-if os.path.exists('./data/graph.graphml') == False: 
+if os.path.exists('./data/kimma.graphml') == False: 
     shutil.unpack_archive('data.zip', '.')
 
-G = ox.load_graphml('./data/graph.graphml')
+G = ox.load_graphml('./data/kimma.graphml')
 
 # Ensure future commits don't have large file
-os.remove('./data/graph.graphml') 
+
+for filename in os.listdir('./data'):
+    file_path = os.path.join('./data', filename)
+    os.remove(file_path) 
+
 os.removedirs('./data')
+
 @app.route('/')
 def index():
     node_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in G.nodes]
-    return render_template('index.html', node_coords=node_coords)
+    path_coords = [
+        [(G.nodes[e[0]]['y'], G.nodes[e[0]]['x']), (G.nodes[e[1]]['y'], G.nodes[e[1]]['x'])]
+        for e in G.edges
+    ]
+    return render_template('index.html', node_coords=node_coords, path_coords=path_coords)
 
 algorithm_list = {
     'Dijkstra': Dijkstra, 
@@ -38,9 +47,7 @@ def find_shortest_path():
     max_depth = int(data['max_depth'])
     # Find the nearest nodes on the graph to the clicked points
     start_node = ox.distance.nearest_nodes(G, start_coords[1], start_coords[0])  # lon, lat
-    print(start_coords)
     end_node = ox.distance.nearest_nodes(G, end_coords[1], end_coords[0])
-    print(end_coords)
     
     func = algorithm_list.get(algorithm)
     if not func:
