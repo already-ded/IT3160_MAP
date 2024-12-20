@@ -17,7 +17,7 @@
         }
         #algorithmLabel {
             position: absolute;
-            top: 120px; /* Adjust this value to move the label downward */
+            top: 170px; /* Adjust this value to move the label downward */
             left: 10px;
             z-index: 1000;
             background-color: white;
@@ -25,7 +25,7 @@
         }
         #algorithmSelect {
             position: absolute;
-            top: 120px; /* Adjust this value to move the dropdown downward */
+            top: 200px; /* Adjust this value to move the dropdown downward */
             left: 10px;
             z-index: 1000;
             background-color: white;
@@ -45,7 +45,7 @@
         }
         #togglePaths {
             position: absolute;
-            top: 180px;
+            top: 120px;
             left: 10px;
             z-index: 1000;
             background: white;
@@ -57,13 +57,14 @@
 </head>
 <body>
     <div id="map"></div>
-    <label id="algorithmLabel" for="algorithmSelect">Choose Algorithm:</label>
+    <label id="algorithmLabel" for="algorithmLabel">Choose Algorithm:</label>
     <select id="algorithmSelect">
         <option value="DFS">DFS</option>
         <option value="BFS">BFS</option>
         <option value="Dijkstra">Dijkstra</option>
         <option value="A Star">A Star</option>
         <option value="Depth Limited DFS">Depth Limited DFS</option>
+        <option value="Iterative Deepening Search">Iterative Deepening Search</option>
         <option value="Greedy Search">Greedy Search</option>
     </select>
     <button id="toggleNodes">Toggle Nodes</button>
@@ -155,9 +156,18 @@
                     }),
                     success: function(response) {
                         // Draw the path on the map
-                        var latlngs = response;
+                        var latlngs = response.path_coords;
+                        var maxDepth = response.max_depth;
+                
                         polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
                         map.fitBounds(polyline.getBounds());
+                        if (maxDepth > 0) {
+                            var startPoint = latlngs[0];
+                            L.popup()
+                                .setLatLng(startPoint)
+                                .setContent("Max Depth: " + maxDepth)
+                                .openOn(map);
+                        }
                     },
                     error: function(error) {
                         console.error(error);
