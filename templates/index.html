@@ -302,14 +302,7 @@
         <label for="road-name" class="col-sm-3 col-form-label">Road name</label>
         <div class="col-sm-9">
           <select id="road-name" name="road-name" class="chosen-select form-control" data-placeholder="Choose your road">
-            <option value="">Select</option>
-            <option value="Street A">Street A</option>
-            <option value="Street B">Street B</option>
-            <option value="Street C">Street C</option>
-            <option value="Street D">Street D</option>
-            <option value="Street E">Street E</option>
-            <option value="Street F">Street F</option>
-            <option value="Street G">Street G</option>
+           <option value="">Select</option>
           </select>
         </div>
       </div>
@@ -542,7 +535,69 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
     });
   });
 
+   $(document).ready(function () {
+    $.ajax({
+      url: '/get_roadnames',
+      type: 'GET',
+      success: function (roadNames) {
+        var $select = $('#road-name');
+        $select.empty();
+        $select.append($('<option>', { value: '', text: 'Select' }));
+        roadNames.forEach(function (name) {
+          $select.append($('<option>', { value: name, text: name }));
+        });
+        $select.trigger('chosen:updated');
+      },
+      error: function () {
+        console.error('Không thể tải danh sách road names.');
+      }
+    });
+
+    // Khởi tạo chosen sau khi DOM sẵn sàng
+    $('.chosen-select').chosen({ width: "100%" });
+  });
+
+
 </script>
+
+<script>
+  $('#road-name').on('change', function () {
+    const selectedRoad = $(this).val();
+    if (!selectedRoad) return;
+
+    // Gửi request tới Flask
+    fetch('/get_road_geometry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ road_name: selectedRoad })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.segments) {
+        // Vẽ đường lên bản đồ
+        drawRoadSegments(data.segments);
+      }
+    });
+  });
+
+  let roadLayer = null;
+  function drawRoadSegments(segments) {
+    if (roadLayer) {
+      roadLayer.remove(); // Xóa đường cũ nếu có
+    }
+
+    roadLayer = L.layerGroup();
+
+    segments.forEach(pair => {
+      L.polyline(pair, { color: 'red', weight: 4 }).addTo(roadLayer);
+    });
+
+    roadLayer.addTo(map);
+  }
+</script>
+
 
 </body>
 </html>
