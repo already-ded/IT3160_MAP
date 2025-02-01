@@ -1,9 +1,25 @@
 import networkx as nx
 from queue import PriorityQueue
 def DFS(G, start_node, end_node):
-    dfs_edges = list(nx.dfs_edges(G, source=start_node))
+    visited = set()
+    parent = {}
+    s = []
+    s.append(start_node)
+    while (len(s) > 0):
+        node = s.pop()
+        if node in visited:
+            continue
+        visited.add(node)
+        for neighbors in G.neighbors(node):
+            if neighbors in visited:
+                continue
+            parent[neighbors] = node
+            s.append(neighbors)
+
+    if end_node not in parent:
+        return None
+
     path = []
-    parent = {v:u for u, v in dfs_edges}
     node = end_node
     while node != start_node:
         path.append(node)
@@ -13,10 +29,15 @@ def DFS(G, start_node, end_node):
     path_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in path]
     return path_coords
 
+
 def BFS(G, start_node, end_node):
     bfs_edges = list(nx.bfs_edges(G, source=start_node))
     path = []
     parent = {v:u for u, v in bfs_edges}
+
+    if end_node not in parent:
+        return None
+    
     node = end_node
     while node != start_node:
         path.append(node)
@@ -36,26 +57,49 @@ def Dijkstra(G, start_node, end_node):
 
 def A_Star(G, start_node, end_node):
     shortest_path = nx.astar_path(G, start_node, end_node, weight='length')
-    #shortest_path.append(start_node)
     # Get the coordinates for the shortest path
     path_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in shortest_path]
     return path_coords
 
 def DLS(G, start_node, end_node, max_depth):
-    dfs_edges = list(nx.dfs_edges(G, source=start_node, depth_limit=max_depth))
-    path = []
-    parent = {v:u for u, v in dfs_edges}
-    if parent.get(end_node) is None:
+    visited = set()
+    parent = {}
+    s = [] 
+    s.append((start_node, 0))  # Each stack element is (node, current_depth)
+    
+    while len(s) > 0:
+        node, depth = s.pop()
+        if depth > max_depth:
+            continue
+        if node in visited:
+            continue
+        visited.add(node)
+        for neighbor in G.neighbors(node):
+            if neighbor in visited:
+                continue
+            parent[neighbor] = node
+            s.append((neighbor, depth + 1))
+            
+    if end_node not in parent:
         return None
+    
+    path = []
     node = end_node
     while node != start_node:
         path.append(node)
         node = parent[node]
     path.append(start_node)
-
+    
     # Get the coordinates for the path
     path_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in path]
     return path_coords
+
+def IDS(G, start_node, end_node):
+    max_depth = 0
+    while (DLS(G, start_node, end_node, max_depth) is None):
+        max_depth += 1
+    print(max_depth)
+    return (DLS(G, start_node, end_node, max_depth), max_depth)
 
 def GFS(G, start_node, end_node):
     def heuristic(G, node, goal):

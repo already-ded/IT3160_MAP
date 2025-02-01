@@ -36,6 +36,7 @@ algorithm_list = {
     'BFS': BFS, 
     'A Star': A_Star, 
     'Depth Limited DFS': DLS,
+    'Iterative Deepening Search': IDS,
     'Greedy Search': GFS
 }
 @app.route('/find_shortest_path', methods=['POST'])
@@ -44,7 +45,7 @@ def find_shortest_path():
     start_coords = data['start']
     end_coords = data['end']
     algorithm = data['algorithm']
-    max_depth = int(data['max_depth'])
+    max_depth = int(data['max_depth']) # if not specified, max_depth is 0
     # Find the nearest nodes on the graph to the clicked points
     start_node = ox.distance.nearest_nodes(G, start_coords[1], start_coords[0])  # lon, lat
     end_node = ox.distance.nearest_nodes(G, end_coords[1], end_coords[0])
@@ -55,15 +56,17 @@ def find_shortest_path():
 
     # Calculate the path using the selected algorithm
     path_coords = []
-    if func != DLS:
+    if func != DLS and func != IDS:
         path_coords = func(G, start_node, end_node)
-    else:
+    elif func == DLS:
         path_coords = func(G, start_node, end_node, max_depth)
+    elif func == IDS:
+        path_coords, max_depth = func(G, start_node, end_node)
 
     if path_coords is None:
         return jsonify({"error": "No path found"}), 404
 
-    return jsonify(path_coords)
+    return jsonify({'path_coords': path_coords, 'max_depth': max_depth})
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
