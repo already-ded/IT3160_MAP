@@ -7,19 +7,8 @@ from shortest_path_algorithms import *
 
 app = Flask(__name__)
 
-# Unzip the graphml file if neccessary
-if os.path.exists('./data') == False: 
-    shutil.unpack_archive('data.zip', '.')
 
-G = ox.load_graphml('./data/kimma.graphml')
-
-# Ensure future commits don't have large file
-
-for filename in os.listdir('./data'):
-    file_path = os.path.join('./data', filename)
-    os.remove(file_path) 
-
-os.removedirs('./data')
+G = ox.load_graphml('trungliet.graphml')
 
 @app.route('/')
 def index():
