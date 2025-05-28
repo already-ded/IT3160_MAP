@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Map</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/static/leaflet.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #mapControls, #algorithmControls {
+      position: absolute;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #mapControls {
+      top: 20px;
+      left: 10px;
+    }
+
+    #algorithmControls {
+      bottom: 20px;
+      left: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    #algorithmSelect {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #mapControls button {
+      background-color: white;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+    }
+
+    #mapControls button:hover {
+      background-color: #f3f4f6;
+      transform: scale(1.03);
+      border: none;
+    }
+
+    #situation-toggle {
+      position: fixed;
+      top: 20px;
+      right: 10px;
+      z-index: 1500;
+      background-color: #4CAF50; /* Màu xanh lá */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    #situation-toggle:hover {
+      background-color: #3e8e41;
+      transform: scale(1.05);
+    }
+
+    /* Popup styles */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1400;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .popup-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .leaflet-control-zoom a {
+      background-color: white;
+      color: #333;
+      font-weight: bold !important;
+      width: 45px !important;
+      height: 45px !important;
+      bottom: 30px;
+      line-height: 45px !important;
+      font-size: 25px !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+
+    .leaflet-control-zoom a:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      #mapControls {
+        top: auto;
+        bottom: 20px;
+        left: 15px;
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      #algorithmControls {
+        top: auto;
+        bottom: 80px;
+        left: 15px;
+      }
+
+      .popup-content {
+        width: 95%;
+        max-height: 70vh;
+      }
+    }
+
+    #error-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #dc3545; /* đỏ */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#error-toast.show {
+    opacity: 1;
+}
+
+/* Highlight area styles */
+.highlight-area {
+    fill: rgba(255, 215, 0, 0.3); /* Màu vàng với độ trong suốt */
+    stroke: #FFD700;
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+}
+
+.highlight-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 150px;
+    z-index: 1000;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+.highlight-controls button {
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    margin-right: 8px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.highlight-controls button:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.03);
+}
+
+.highlight-controls button.active {
+    background-color: #FFD700;
+    color: #333;
+
+.highlight-tooltip {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+    font-weight: 600;
+}    
+}
+
+@media (max-width: 768px) {
+    .highlight-controls {
+        top: auto;
+        bottom: 120px;
+        right: 15px;
+    }
+}
+
+.route-controls {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.route-controls .form-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.route-controls .chosen-container {
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .route-controls {
+        top: auto;
+        bottom: 170px;
+        width: calc(100% - 30px);
+        left: 15px;
+        transform: none;
+    }
+}
+  </style>
+</head>
+
+<!-- Success Modal với dấu tích xanh -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center py-4">
+      <div class="modal-body">
+        <div class="mb-3">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" class="text-success animate__animated animate__zoomIn">
+            <circle cx="12" cy="12" r="10" stroke="green" stroke-width="2" fill="none"/>
+            <path d="M8 12l2.5 2.5L16 9" stroke="green" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h5 class="modal-title mb-3" id="successModalLabel">Thành công!</h5>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS for modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+
+<body>
+
+<div id="map"></div>
+
+<!-- Popup Toggle -->
+<button id="situation-toggle">Quản lý tình huống</button>
+
+<!-- Popup -->
+<!-- Popup -->
+<div id="popup-overlay" class="popup-overlay">
+  <div class="popup-content">
+    <div class="popup-header">
+        <h4 class="mb-0">Tạo tình huống</h4>
+        <button class="popup-close">&times;</button>
+    </div>
+    <form id="situation-form" class="form-horizontal">
+      <div class="form-group row mb-3">
+        <label for="road-name" class="col-sm-3 col-form-label">Road name</label>
+        <div class="col-sm-9">
+          <select id="road-name" name="road-name" class="chosen-select form-control" data-placeholder="Choose your road">
+           <option value="">Select</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-3">
+        <label for="road-condition" class="col-sm-3 col-form-label">Road condition</label>
+        <div class="col-sm-9">
+          <select id="road-condition" name="road-condition" class="chosen-select form-control" multiple data-placeholder="Choose road condition">
+            <option value="Trafic Jam">Trafic Jam</option>
+            <option value="Congestion">Congestion</option>
+            <option value="Slippery Road">Slippery Road</option>
+            <option value="Construction">Construction</option>
+            <option value="Accidents Ahead">Accidents Ahead</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mt-4">
+        <div class="col-sm-12 text-end">
+          <button type="submit" class="btn btn-success">Khởi tạo</button>
+        </div>
+      </div>
+    </form>
+    <button class="btn btn-danger mt-3 reset-button"> Reset Tình Huống</button>
+  </div>
+</div>
+
+
+<!-- Controls -->
+<div id="mapControls">
+  <button id="toggleNodes"><i data-lucide="map-pin"></i> Toggle Nodes</button>
+  <button id="togglePaths"><i data-lucide="link"></i> Toggle Paths</button>
+</div>
+
+<!-- Highlight Controls -->
+<div class="highlight-controls">
+    <button id="highlight-trungliet" class="active">Phường Trung Liệt</button>
+    <button id="highlight-dongda">Quận Đống Đa</button>
+</div>
+
+<div id="algorithmControls">
+  <label for="algorithmSelect" class="form-label">Thuật toán tìm đường</label>
+  <select id="algorithmSelect" class="form-select">
+    <option value="DFS">DFS</option>
+    <option value="BFS">BFS</option>
+    <option value="Dijkstra">Dijkstra</option>
+    <option value="A Star">A Star</option>
+    <option value="Depth Limited DFS">Depth Limited DFS</option>
+    <option value="Iterative Deepening Search">Iterative Deepening Search</option>
+    <option value="Greedy Search">Greedy Search</option>
+  </select>
+</div>
+
+<div id="error-toast" class="hidden">Không tìm thấy đường đi giữa hai điểm.</div>
+
+
+<script src="/static/leaflet.js"></script>
+<script>
+  lucide.createIcons();
+
+var map = L.map('map').setView([21.0132, 105.8204], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  // Highlight layers
+var highlightLayer = L.layerGroup().addTo(map);
+
+// Tọa độ phường Trung Liệt (xấp xỉ - cần điều chỉnh chính xác)
+var trungLietArea = [
+    [21.0165, 105.8180], // Tây Bắc
+    [21.0165, 105.8250], // Đông Bắc
+    [21.0120, 105.8250], // Đông Nam
+    [21.0120, 105.8180]  // Tây Nam
+];
+
+// Tọa độ quận Đống Đa (xấp xỉ - cần điều chỉnh chính xác)
+var dongDaArea = [
+    [21.020, 105.810], // Tây Bắc
+    [21.020, 105.835], // Đông Bắc
+    [21.005, 105.835], // Đông Nam
+    [21.005, 105.810]  // Tây Nam
+];
+
+function highlightArea(coords, areaName) {
+    highlightLayer.clearLayers();
+    var polygon = L.polygon([coords], {
+        className: 'highlight-area',
+        fillOpacity: 0.3,
+        color: '#FFD700',
+        weight: 2,
+        dashArray: '5, 5'
+    }).addTo(highlightLayer);
+    
+    // Thêm tooltip
+    polygon.bindTooltip(areaName, {
+        permanent: true,
+        direction: 'center',
+        className: 'highlight-tooltip'
+    }).openTooltip();
+}
+
+// Button events
+document.getElementById('highlight-trungliet').addEventListener('click', function() {
+    highlightArea(trungLietArea, "Phường Trung Liệt");
+    this.classList.add('active');
+    document.getElementById('highlight-dongda').classList.remove('active');
+});
+
+document.getElementById('highlight-dongda').addEventListener('click', function() {
+    highlightArea(dongDaArea, "Quận Đống Đa");
+    this.classList.add('active');
+    document.getElementById('highlight-trungliet').classList.remove('active');
+});
+
+  map.zoomControl.setPosition('bottomright');
+
+  var nodeMarkers = L.layerGroup();
+  var pathMarkers = L.layerGroup();
+  var nodes = JSON.parse('{{ node_coords|tojson|safe }}');
+  var paths = JSON.parse('{{ path_coords|tojson|safe }}');
+
+  nodes.forEach(coord => L.marker(coord).addTo(nodeMarkers));
+  paths.forEach(path => L.polyline(path, { color: 'blue' }).addTo(pathMarkers));
+
+  document.getElementById('toggleNodes').onclick = () => {
+    if (map.hasLayer(nodeMarkers)) map.removeLayer(nodeMarkers);
+    else map.addLayer(nodeMarkers);
+  };
+
+  document.getElementById('togglePaths').onclick = () => {
+    if (map.hasLayer(pathMarkers)) map.removeLayer(pathMarkers);
+    else map.addLayer(pathMarkers);
+  };
+
+  let click_coords = [];
+  let start_marker, end_marker, polyline;
+  const redIcon = L.icon({
+    iconUrl: '/static/images/red-marker.png',
+    iconSize: [30, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  });
+
+  map.on('click', e => {
+    if (click_coords.length >= 2) {
+      click_coords = [];
+      [start_marker, end_marker, polyline].forEach(m => m && map.removeLayer(m));
+    }
+
+    const { lat, lng } = e.latlng;
+    click_coords.push([lat, lng]);
+
+    if (click_coords.length === 1) {
+      start_marker = L.marker([lat, lng], { icon: redIcon }).addTo(map).bindPopup("Start Point").openPopup();
+    } else if (click_coords.length === 2) {
+      end_marker = L.marker([lat, lng], { icon: redIcon }).addTo(map).bindPopup("End Point").openPopup();
+
+    var algorithm = document.getElementById('algorithmSelect').value;
+    var maxDepth = algorithm === 'Depth Limited DFS' ? prompt("Enter max depth:") : '0';
+
+      $.ajax({
+        url: "/find_shortest_path",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+          start: click_coords[0],
+          end: click_coords[1],
+          algorithm: algorithm,
+          max_depth: maxDepth
+        }),
+        success: response => {
+          polyline = L.polyline(response.path_coords, { color: 'red' }).addTo(map);
+          map.fitBounds(polyline.getBounds());
+        },
+        error: function(error) {
+        console.error(error);
+        const toast = document.getElementById("error-toast");
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 3000);  // Tự ẩn sau 3 giây
+}
+
+      });
+    }
+  });
+
+  // Popup functionality
+  const popupOverlay = document.getElementById('popup-overlay');
+  const popupClose = document.querySelector('.popup-close');
+
+  document.getElementById('situation-toggle').onclick = () => {
+    popupOverlay.style.display = 'flex';
+  };
+
+  popupClose.onclick = () => {
+    popupOverlay.style.display = 'none';
+  };
+
+  popupOverlay.onclick = (e) => {
+    if (e.target === popupOverlay) {
+      popupOverlay.style.display = 'none';
+    }
+  };
+
+   $(document).ready(function () {
+    $(".chosen-select").chosen({
+      width: "100%",
+      no_results_text: "Không tìm thấy kết quả phù hợp!",
+      placeholder_text_multiple: "Chọn một hoặc nhiều tình trạng"
+    });
+
+    // Xử lý submit form
+    document.getElementById('situation-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const roadName = document.getElementById('road-name').value;
+        const roadConditions = $('#road-condition').val();
+
+        fetch('/update_road_status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                road_name: roadName,
+                road_conditions: roadConditions
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            // Reset form and UI
+            document.getElementById('situation-form').reset();
+            $('#road-name, #road-condition').trigger('chosen:updated');
+            popupOverlay.style.display = 'none';
+
+            console.log('API response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Optionally show an error modal/message
+        });
+    });
+  });
+
+   $(document).ready(function () {
+    $.ajax({
+      url: '/get_roadnames',
+      type: 'GET',
+      success: function (roadNames) {
+        var $select = $('#road-name');
+        $select.empty();
+        $select.append($('<option>', { value: '', text: 'Select' }));
+        roadNames.forEach(function (name) {
+          $select.append($('<option>', { value: name.d8, text: name.d11 }));
+        });
+        $select.trigger('chosen:updated');
+      },
+      error: function () {
+        console.error('Không thể tải danh sách road names.');
+      }
+    });
+
+    // Khởi tạo chosen sau khi DOM sẵn sàng
+    $('.chosen-select').chosen({ width: "100%" });
+  });
+
+
+</script>
+
+<script>
+  $('#road-name').on('change', function () {
+    const selectedRoad = $(this).val();
+    if (!selectedRoad) return;
+
+    // Gửi request tới Flask
+    fetch('/get_road_geometry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ road_name: selectedRoad })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.segments) {
+        // Vẽ đường lên bản đồ
+        drawRoadSegments(data.segments);
+      }
+    });
+  });
+
+  let roadLayer = null;
+  function drawRoadSegments(segments) {
+    if (roadLayer) {
+      roadLayer.remove(); // Xóa đường cũ nếu có
+    }
+
+    roadLayer = L.layerGroup();
+
+    segments.forEach(pair => {
+      L.polyline(pair, { color: 'red', weight: 4 }).addTo(roadLayer);
+    });
+
+    roadLayer.addTo(map);
+  }
+</script>
+
+
+<script>
+$(document).ready(function() {
+    // Initialize chosen for the new selects
+    $('#start-road, #end-road').chosen({
+        width: "100%",
+        no_results_text: "Không tìm thấy kết quả phù hợp!"
+    });
+
+    // Load road names for both selects
+    $.ajax({
+        url: '/get_roadnames',
+        type: 'GET',
+        success: function(roadNames) {
+            const $startSelect = $('#start-road');
+            const $endSelect = $('#end-road');
+            
+            $startSelect.empty().append($('<option>', { value: '', text: 'Select' }));
+            $endSelect.empty().append($('<option>', { value: '', text: 'Select' }));
+            
+            roadNames.forEach(function(name) {
+                $startSelect.append($('<option>', { value: name.d8, text: name.d11 }));
+                $endSelect.append($('<option>', { value: name.d8, text: name.d11 }));
+            });
+            
+            $startSelect.trigger('chosen:updated');
+            $endSelect.trigger('chosen:updated');
+        },
+        error: function() {
+            console.error('Could not load road names.');
+        }
+    });
+});
+</script>
+
+<script>
+  $(document).ready(function() {
+    // Xử lý sự kiện click cho nút reset
+    $('.reset-button').on('click', function() {
+        // Gửi yêu cầu reset tình huống tới Flask
+        fetch('/reset_situation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Reset successful:', data);
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        })
+        .catch(error => {
+            console.error('Error resetting situation:', error);
+        });
+    });
+  })
+</script>
+
+</body>
+</html>
