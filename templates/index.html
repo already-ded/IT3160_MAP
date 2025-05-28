@@ -524,6 +524,19 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
           max_depth: maxDepth
         }),
         success: response => {
+          if (polyline) {
+            map.removeLayer(polyline);
+            polyline = null;
+          }
+          // if (start_marker) {
+          //     map.removeLayer(start_marker);
+          //     start_marker = null;
+          // }
+          // if (end_marker) {
+          //     map.removeLayer(end_marker);
+          //     end_marker = null;
+          // }
+
           polyline = L.polyline(response.path_coords, { color: 'red' }).addTo(map);
           map.fitBounds(polyline.getBounds());
         },
@@ -720,13 +733,101 @@ $(document).ready(function() {
     });
   })
 
-  $(document).ready(function() {
+  let nodeInfoList = [];
+
+function populateNodeSelects() {
     fetch('/get_node_info')
       .then(response => response.json())
       .then(data => {
-        console.log('Node info:', data);
+        nodeInfoList = data;
+        const $startSelect = $('#start-road');
+        const $endSelect = $('#end-road');
+        $startSelect.empty().append($('<option>', { value: '', text: 'Select' }));
+        $endSelect.empty().append($('<option>', { value: '', text: 'Select' }));
+
+        data.forEach(function(node) {
+          if (node.d8 && node.d11) {
+            $startSelect.append($('<option>', { value: node.d8, text: node.d11 }));
+            $endSelect.append($('<option>', { value: node.d8, text: node.d11 }));
+          }
+        });
+
+        $startSelect.trigger('chosen:updated');
+        $endSelect.trigger('chosen:updated');
       })
-  });
+      .catch(error => {
+        console.error('Could not load node info:', error);
+      });
+}
+
+$(document).ready(function() {
+    populateNodeSelects();
+
+    // Example: Add a button for finding the path
+    if ($('#find-path-btn').length === 0) {
+        $('#routeControls').append('<button id="find-path-btn" class="btn btn-primary mt-3">Tìm đường</button>');
+    }
+
+    $('#find-path-btn').on('click', function() {
+        const startVal = $('#start-road').val();
+        const endVal = $('#end-road').val();
+        const algorithm = $('#algorithmSelect').val() || "A_Star";
+        const maxDepth = "0";
+
+        if (!startVal || !endVal) {
+            alert('Vui lòng chọn điểm bắt đầu và kết thúc!');
+            return;
+        }
+
+        // Find node info by d8
+        const startNode = nodeInfoList.find(n => n.d8 === startVal);
+        const endNode = nodeInfoList.find(n => n.d8 === endVal);
+
+        if (!startNode || !endNode) {
+            alert('Không tìm thấy thông tin node!');
+            return;
+        }
+
+        const start = [parseFloat(startNode.d4), parseFloat(startNode.d5)];
+        const end = [parseFloat(endNode.d4), parseFloat(endNode.d5)];
+
+        fetch('/find_shortest_path', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                start: start,
+                end: end,
+                algorithm: algorithm,
+                max_depth: maxDepth
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (polyline) {
+            map.removeLayer(polyline);
+            polyline = null;
+          }
+          if (start_marker) {
+            map.removeLayer(start_marker);
+            start_marker = null;
+          }
+          if (end_marker) {
+              map.removeLayer(end_marker);
+              end_marker = null;
+          }
+
+          // Add new markers for start and end
+          start_marker = L.marker(start, { icon: redIcon }).addTo(map).bindPopup("Start Point").openPopup();
+          end_marker = L.marker(end, { icon: redIcon }).addTo(map).bindPopup("End Point").openPopup();
+          polyline = L.polyline(data.path_coords, { color: 'red' }).addTo(map);
+          map.fitBounds(polyline.getBounds());
+        })
+        .catch(err => {
+            alert('Có lỗi xảy ra khi tìm đường!');
+            console.error(err);
+        });
+    });
+});
 </script>
 
 </body>
