@@ -148,6 +148,22 @@ def get_roadnames():
 
     return jsonify(road_names_list)
 
+@app.route('/get_node_info', methods=['GET'])
+def get_node_info():
+    node_names_list = []
+    for node in root.findall('.//graphml:node', namespace):
+        node_name_d8 = node.find('./graphml:data[@key="d8"]', namespace)
+        node_name_d11 = node.find('./graphml:data[@key="d11"]', namespace)
+
+        node_name_obj = {}
+        if node_name_d8 is not None and node_name_d8.text:
+            node_name_obj['d8'] = node_name_d8.text
+        if node_name_d11 is not None and node_name_d11.text:
+            node_name_obj['d11'] = node_name_d11.text
+        if node_name_obj:
+            node_names_list.append(node_name_obj)
+    return jsonify(node_names_list)
+
 @app.route('/get_node_names', methods=['GET'])
 def get_node_names():
     node_names = []

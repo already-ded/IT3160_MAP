@@ -390,6 +390,21 @@
   </select>
 </div>
 
+<div id="routeControls" class="route-controls">
+  <div class="form-group mb-3">
+    <label for="start-road" class="form-label">Start Road</label>
+    <select id="start-road" class="chosen-select form-control" data-placeholder="Choose start road">
+      <option value="">Select</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="end-road" class="form-label">End Road</label>
+    <select id="end-road" class="chosen-select form-control" data-placeholder="Choose end road">
+      <option value="">Select</option>
+    </select>
+  </div>
+</div>
+
 <div id="error-toast" class="hidden">Không tìm thấy đường đi giữa hai điểm.</div>
 
 
@@ -704,6 +719,14 @@ $(document).ready(function() {
         });
     });
   })
+
+  $(document).ready(function() {
+    fetch('/get_node_info')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Node info:', data);
+      })
+  });
 </script>
 
 </body>
