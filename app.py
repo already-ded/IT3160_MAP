@@ -13,11 +13,20 @@ G = ox.load_graphml('trungliet.graphml')
 
 @app.route('/')
 def index():
-    node_coords = [(G.nodes[node]['y'], G.nodes[node]['x']) for node in G.nodes]
-    path_coords = [
-        [(G.nodes[e[0]]['y'], G.nodes[e[0]]['x']), (G.nodes[e[1]]['y'], G.nodes[e[1]]['x'])]
-        for e in G.edges
-    ]
+    node_coords = []
+    for node in G.nodes:
+        y = G.nodes[node]['y']
+        x = G.nodes[node]['x']
+        name = G.nodes[node].get('name', str(node))
+        node_coords.append({'coord': [y, x], 'name': name})
+
+    path_coords = []
+    for u, v, data in G.edges(data=True):
+        coords = [[G.nodes[u]['y'], G.nodes[u]['x']], [G.nodes[v]['y'], G.nodes[v]['x']]]
+        # Use d11 as name if available, else use edge id
+        name = data.get('name') or data.get('d11') or f"{u} - {v}"
+        path_coords.append({'coords': coords, 'name': name})
+
     return render_template('index.html', node_coords=node_coords, path_coords=path_coords)
 
 algorithm_list = {

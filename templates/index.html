@@ -472,10 +472,15 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
   var nodeMarkers = L.layerGroup();
   var pathMarkers = L.layerGroup();
   var nodes = JSON.parse('{{ node_coords|tojson|safe }}');
+  nodes.forEach(node => 
+    L.marker(node.coord).bindPopup(node.name).addTo(nodeMarkers)
+  );
   var paths = JSON.parse('{{ path_coords|tojson|safe }}');
-
-  nodes.forEach(coord => L.marker(coord).addTo(nodeMarkers));
-  paths.forEach(path => L.polyline(path, { color: 'blue' }).addTo(pathMarkers));
+paths.forEach(path =>
+  L.polyline(path.coords, { color: 'blue', weight: 7 })
+    .bindPopup(path.name)
+    .addTo(pathMarkers)
+);
 
   document.getElementById('toggleNodes').onclick = () => {
     if (map.hasLayer(nodeMarkers)) map.removeLayer(nodeMarkers);
