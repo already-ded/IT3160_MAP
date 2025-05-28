@@ -115,11 +115,11 @@ def update_road_status():
 
 def update_edge_lengths_by_road_status(G, road_conditions, road_name):
     status_factor = {
-        "Trafic Jam" : 4,
-        "Congestion" : 5,
-        "Slippery Road" : 9,
-        "Construction" : 3,
-        "Accidents Ahead": 4
+        "Trafic Jam" : 100,
+        "Congestion" : 100,
+        "Slippery Road" : 100,
+        "Construction" : 100,
+        "Accidents Ahead": 100
     }
 
     updated = False
