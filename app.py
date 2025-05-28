@@ -113,48 +113,51 @@ def update_road_status():
 
     return update_edge_lengths_by_road_status(G, road_conditions, road_name)
 
-def update_edge_lengths_by_road_status(G, road_conditions, road_id):
+def update_edge_lengths_by_road_status(G, road_conditions, road_name):
     status_factor = {
-        "Trafic Jam" : 0.4,
-        "Congestion" : 0.3,
-        "Slippery Road" : 0.15,
-        "Construction" : 0.2,
-        "Accidents Ahead": 0.25
+        "Trafic Jam" : 4,
+        "Congestion" : 5,
+        "Slippery Road" : 9,
+        "Construction" : 3,
+        "Accidents Ahead": 4
     }
 
+    updated = False
     for u, v, k, data in G.edges(keys=True, data=True):
-        # Check if the edge has a 'name' attribute and if it matches the road_name
-        if str(data['osmid']) == road_id:
+        edge_name = data.get('name') or data.get('d11')
+        if edge_name and str(edge_name) == road_name:
             for road_condition in road_conditions:
                 if road_condition in status_factor:
-                    # Update the edge length based on the condition
-                    original_length = data['length']  # Assuming 'length' is the original length of the edge
-                    new_length = original_length * (1 + status_factor[road_condition]) #The status factor should be added to 1
+                    original_length = data['length']
+                    new_length = original_length * (1 + status_factor[road_condition])
                     data['length'] = new_length
+                    updated = True
 
-                    return jsonify({
-                        'road_name': road_id,
-                        'original_length': original_length,
-                        'new_length': new_length,
-                    })
+    # Rebuild the graph (optional, only if you need to refresh structure)
+    if updated:
+        # Convert to GraphML string and reload (to refresh structure)
+        import tempfile
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.graphml') as tmpfile:
+            ox.save_graphml(G, tmpfile.name)
+            tmpfile.flush()
+            G = ox.load_graphml(tmpfile.name)
 
+    return jsonify({
+        'road_name': road_name,
+        'status': 'updated and graph rebuilt' if updated else 'no update'
+    })
 
 @app.route('/get_roadnames', methods=['GET'])
 def get_roadnames():
+    road_names_set = set()
     road_names_list = []
     for edge in root.findall('.//graphml:edge', namespace):
-        road_name_d8 = edge.find('./graphml:data[@key="d8"]', namespace)
         road_name_d11 = edge.find('./graphml:data[@key="d11"]', namespace)
-
-        road_name_obj = {}
-        if road_name_d8 is not None and road_name_d8.text:
-            road_name_obj['d8'] = road_name_d8.text
         if road_name_d11 is not None and road_name_d11.text:
-            road_name_obj['d11'] = road_name_d11.text
-
-        if road_name_obj:  # Only add to the list if the object is not empty
-            road_names_list.append(road_name_obj)
-
+            name = road_name_d11.text
+            if name not in road_names_set:
+                road_names_set.add(name)
+                road_names_list.append({'d11': name})
     return jsonify(road_names_list)
 
 @app.route('/get_node_info', methods=['GET'])
@@ -178,14 +181,6 @@ def get_node_info():
         if node_name_obj:
             node_names_list.append(node_name_obj)
     return jsonify(node_names_list)
-
-@app.route('/get_node_names', methods=['GET'])
-def get_node_names():
-    node_names = []
-    for node in root.findall('.//graphml:node', namespace):
-        node_name_d8 = node.find('./graphml:data[@key="d8"]', namespace)
-
-    return jsonify(node_names)
 
 @app.route('/get_road_geometry', methods=['POST'])
 def get_road_geometry():

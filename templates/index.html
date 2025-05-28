@@ -724,8 +724,8 @@ $(document).ready(function() {
           }
 
           // Add new markers for start and end
-          start_marker = L.marker(start, { icon: redIcon }).addTo(map).bindPopup("Start Point").openPopup();
-          end_marker = L.marker(end, { icon: redIcon }).addTo(map).bindPopup("End Point").openPopup();
+          start_marker = L.marker(start, { icon: redIcon }).addTo(map).openPopup();
+          end_marker = L.marker(end, { icon: redIcon }).addTo(map).openPopup();
           polyline = L.polyline(data.path_coords, { color: 'red' }).addTo(map);
           map.fitBounds(polyline.getBounds());
         })
@@ -783,30 +783,6 @@ $(document).ready(function() {
     $('#start-road, #end-road').chosen({
         width: "100%",
         no_results_text: "Không tìm thấy kết quả phù hợp!"
-    });
-
-    // Load road names for both selects
-    $.ajax({
-        url: '/get_roadnames',
-        type: 'GET',
-        success: function(roadNames) {
-            const $startSelect = $('#start-road');
-            const $endSelect = $('#end-road');
-            
-            $startSelect.empty().append($('<option>', { value: '', text: 'Select' }));
-            $endSelect.empty().append($('<option>', { value: '', text: 'Select' }));
-            
-            roadNames.forEach(function(name) {
-                $startSelect.append($('<option>', { value: name.d8, text: name.d11 }));
-                $endSelect.append($('<option>', { value: name.d8, text: name.d11 }));
-            });
-            
-            $startSelect.trigger('chosen:updated');
-            $endSelect.trigger('chosen:updated');
-        },
-        error: function() {
-            console.error('Could not load road names.');
-        }
     });
 });
 </script>
