@@ -256,6 +256,40 @@
         right: 15px;
     }
 }
+
+.route-controls {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.route-controls .form-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.route-controls .chosen-container {
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .route-controls {
+        top: auto;
+        bottom: 170px;
+        width: calc(100% - 30px);
+        left: 15px;
+        transform: none;
+    }
+}
   </style>
 </head>
 
@@ -270,7 +304,7 @@
             <path d="M8 12l2.5 2.5L16 9" stroke="green" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h5 class="modal-title mb-3" id="successModalLabel">Tạo tình huống thành công!</h5>
+        <h5 class="modal-title mb-3" id="successModalLabel">Thành công!</h5>
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Đóng</button>
       </div>
     </div>
@@ -326,6 +360,7 @@
         </div>
       </div>
     </form>
+    <button class="btn btn-danger mt-3 reset-button"> Reset Tình Huống</button>
   </div>
 </div>
 
@@ -345,14 +380,29 @@
 <div id="algorithmControls">
   <label for="algorithmSelect" class="form-label">Thuật toán tìm đường</label>
   <select id="algorithmSelect" class="form-select">
+    <option value="A Star">A Star</option>
     <option value="DFS">DFS</option>
     <option value="BFS">BFS</option>
     <option value="Dijkstra">Dijkstra</option>
-    <option value="A Star">A Star</option>
     <option value="Depth Limited DFS">Depth Limited DFS</option>
     <option value="Iterative Deepening Search">Iterative Deepening Search</option>
     <option value="Greedy Search">Greedy Search</option>
   </select>
+</div>
+
+<div id="routeControls" class="route-controls">
+  <div class="form-group mb-3">
+    <label for="start-road" class="form-label">Start Road</label>
+    <select id="start-road" class="chosen-select form-control" data-placeholder="Choose start road">
+      <option value="">Select</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="end-road" class="form-label">End Road</label>
+    <select id="end-road" class="chosen-select form-control" data-placeholder="Choose end road">
+      <option value="">Select</option>
+    </select>
+  </div>
 </div>
 
 <div id="error-toast" class="hidden">Không tìm thấy đường đi giữa hai điểm.</div>
@@ -422,10 +472,15 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
   var nodeMarkers = L.layerGroup();
   var pathMarkers = L.layerGroup();
   var nodes = JSON.parse('{{ node_coords|tojson|safe }}');
+  nodes.forEach(node => 
+    L.marker(node.coord).bindPopup(node.name).addTo(nodeMarkers)
+  );
   var paths = JSON.parse('{{ path_coords|tojson|safe }}');
-
-  nodes.forEach(coord => L.marker(coord).addTo(nodeMarkers));
-  paths.forEach(path => L.polyline(path, { color: 'blue' }).addTo(pathMarkers));
+paths.forEach(path =>
+  L.polyline(path.coords, { color: 'blue', weight: 7 })
+    .bindPopup(path.name)
+    .addTo(pathMarkers)
+);
 
   document.getElementById('toggleNodes').onclick = () => {
     if (map.hasLayer(nodeMarkers)) map.removeLayer(nodeMarkers);
@@ -474,6 +529,19 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
           max_depth: maxDepth
         }),
         success: response => {
+          if (polyline) {
+            map.removeLayer(polyline);
+            polyline = null;
+          }
+          // if (start_marker) {
+          //     map.removeLayer(start_marker);
+          //     start_marker = null;
+          // }
+          // if (end_marker) {
+          //     map.removeLayer(end_marker);
+          //     end_marker = null;
+          // }
+
           polyline = L.polyline(response.path_coords, { color: 'red' }).addTo(map);
           map.fitBounds(polyline.getBounds());
         },
@@ -519,18 +587,32 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
         
         const roadName = document.getElementById('road-name').value;
         const roadConditions = $('#road-condition').val();
-        
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        successModal.show();
-        
-        this.reset();
-        $('#road-name, #road-condition').trigger('chosen:updated');
-        
-        popupOverlay.style.display = 'none';
 
-        console.log({
-            roadName,
-            roadConditions
+        fetch('/update_road_status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                road_name: roadName,
+                road_conditions: roadConditions
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            // Reset form and UI
+            document.getElementById('situation-form').reset();
+            $('#road-name, #road-condition').trigger('chosen:updated');
+            popupOverlay.style.display = 'none';
+
+            console.log('API response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Optionally show an error modal/message
         });
     });
   });
@@ -544,7 +626,7 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
         $select.empty();
         $select.append($('<option>', { value: '', text: 'Select' }));
         roadNames.forEach(function (name) {
-          $select.append($('<option>', { value: name, text: name }));
+          $select.append($('<option>', { value: name.d8, text: name.d11 }));
         });
         $select.trigger('chosen:updated');
       },
@@ -557,6 +639,102 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
     $('.chosen-select').chosen({ width: "100%" });
   });
 
+  let nodeInfoList = [];
+
+function populateNodeSelects() {
+    fetch('/get_node_info')
+      .then(response => response.json())
+      .then(data => {
+        nodeInfoList = data;
+        const $startSelect = $('#start-road');
+        const $endSelect = $('#end-road');
+        $startSelect.empty().append($('<option>', { value: '', text: 'Select' }));
+        $endSelect.empty().append($('<option>', { value: '', text: 'Select' }));
+
+        data.forEach(function(node) {
+          if (node.d8 && node.d11) {
+            $startSelect.append($('<option>', { value: node.d8, text: node.d11 }));
+            $endSelect.append($('<option>', { value: node.d8, text: node.d11 }));
+          }
+        });
+
+        $startSelect.trigger('chosen:updated');
+        $endSelect.trigger('chosen:updated');
+      })
+      .catch(error => {
+        console.error('Could not load node info:', error);
+      });
+}
+
+$(document).ready(function() {
+    populateNodeSelects();
+
+    // Example: Add a button for finding the path
+    if ($('#find-path-btn').length === 0) {
+        $('#routeControls').append('<button id="find-path-btn" class="btn btn-primary mt-3">Tìm đường</button>');
+    }
+
+    $('#find-path-btn').on('click', function() {
+        const startVal = $('#start-road').val();
+        const endVal = $('#end-road').val();
+        const algorithm = $('#algorithmSelect').val() || "A_Star";
+        const maxDepth = "0";
+
+        if (!startVal || !endVal) {
+            alert('Vui lòng chọn điểm bắt đầu và kết thúc!');
+            return;
+        }
+
+        // Find node info by d8
+        const startNode = nodeInfoList.find(n => n.d8 === startVal);
+        const endNode = nodeInfoList.find(n => n.d8 === endVal);
+
+        if (!startNode || !endNode) {
+            alert('Không tìm thấy thông tin node!');
+            return;
+        }
+
+        const start = [parseFloat(startNode.d4), parseFloat(startNode.d5)];
+        const end = [parseFloat(endNode.d4), parseFloat(endNode.d5)];
+
+        fetch('/find_shortest_path', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                start: start,
+                end: end,
+                algorithm: algorithm,
+                max_depth: maxDepth
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+          click_coords = [start, end];
+          if (polyline) {
+            map.removeLayer(polyline);
+            polyline = null;
+          }
+          if (start_marker) {
+            map.removeLayer(start_marker);
+            start_marker = null;
+          }
+          if (end_marker) {
+              map.removeLayer(end_marker);
+              end_marker = null;
+          }
+
+          // Add new markers for start and end
+          start_marker = L.marker(start, { icon: redIcon }).addTo(map).openPopup();
+          end_marker = L.marker(end, { icon: redIcon }).addTo(map).openPopup();
+          polyline = L.polyline(data.path_coords, { color: 'red' }).addTo(map);
+          map.fitBounds(polyline.getBounds());
+        })
+        .catch(err => {
+            alert('Có lỗi xảy ra khi tìm đường!');
+            console.error(err);
+        });
+    });
+});
 
 </script>
 
@@ -598,6 +776,40 @@ document.getElementById('highlight-dongda').addEventListener('click', function()
   }
 </script>
 
+
+<script>
+$(document).ready(function() {
+    // Initialize chosen for the new selects
+    $('#start-road, #end-road').chosen({
+        width: "100%",
+        no_results_text: "Không tìm thấy kết quả phù hợp!"
+    });
+});
+</script>
+
+<script>
+  $(document).ready(function() {
+    // Xử lý sự kiện click cho nút reset
+    $('.reset-button').on('click', function() {
+        // Gửi yêu cầu reset tình huống tới Flask
+        fetch('/reset_situation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Reset successful:', data);
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        })
+        .catch(error => {
+            console.error('Error resetting situation:', error);
+        });
+    });
+  })
+</script>
 
 </body>
 </html>
