@@ -1,0 +1,199 @@
+2025-05-27 08:34:16,889 WARNING  * Debugger is active!
+2025-05-27 08:34:16,891 INFO  * Debugger PIN: 840-439-867
+2025-05-27 08:34:27,957 INFO  * Detected change in 'C:\\Users\\admin\\Downloads\\IT3160_MAP-main (1)\\IT3160_MAP-main\\app.py', reloading
+2025-05-27 08:34:31,104 WARNING  * Debugger is active!
+2025-05-27 08:34:31,106 INFO  * Debugger PIN: 840-439-867
+2025-05-27 08:35:59,446 INFO  * Detected change in 'C:\\Users\\admin\\Downloads\\IT3160_MAP-main (1)\\IT3160_MAP-main\\app.py', reloading
+2025-05-27 08:36:58,141 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000
+2025-05-27 08:36:58,141 INFO [33mPress CTRL+C to quit[0m
+2025-05-27 08:36:58,143 INFO  * Restarting with stat
+2025-05-27 08:37:00,897 WARNING  * Debugger is active!
+2025-05-27 08:37:00,899 INFO  * Debugger PIN: 840-439-867
+2025-05-27 08:37:07,249 INFO 127.0.0.1 - - [27/May/2025 08:37:07] "GET / HTTP/1.1" 200 -
+2025-05-27 08:37:07,321 INFO 127.0.0.1 - - [27/May/2025 08:37:07] "GET /static/leaflet.css HTTP/1.1" 200 -
+2025-05-27 08:37:07,329 INFO 127.0.0.1 - - [27/May/2025 08:37:07] "GET /static/leaflet.js HTTP/1.1" 200 -
+2025-05-27 08:37:08,448 INFO 127.0.0.1 - - [27/May/2025 08:37:08] "GET /get_roadnames HTTP/1.1" 200 -
+2025-05-27 08:37:16,277 INFO 127.0.0.1 - - [27/May/2025 08:37:16] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-27 08:37:33,503 INFO 127.0.0.1 - - [27/May/2025 08:37:33] "POST /get_road_geometry HTTP/1.1" 200 -
+2025-05-27 08:37:35,069 INFO 127.0.0.1 - - [27/May/2025 08:37:35] "[35m[1mPOST /update_road_status HTTP/1.1[0m" 500 -
+2025-05-27 08:38:31,296 INFO  * Detected change in 'C:\\Users\\admin\\Downloads\\IT3160_MAP-main (1)\\IT3160_MAP-main\\app.py', reloading
+2025-05-27 08:38:31,673 INFO  * Restarting with stat
+2025-05-27 08:38:34,421 WARNING  * Debugger is active!
+2025-05-27 08:38:34,424 INFO  * Debugger PIN: 840-439-867
+2025-05-27 08:38:44,472 INFO  * Detected change in 'C:\\Users\\admin\\Downloads\\IT3160_MAP-main (1)\\IT3160_MAP-main\\app.py', reloading
+2025-05-27 08:38:44,868 INFO  * Restarting with stat
+2025-05-27 08:38:47,732 WARNING  * Debugger is active!
+2025-05-27 08:38:47,735 INFO  * Debugger PIN: 840-439-867
+2025-05-27 08:39:03,140 INFO 127.0.0.1 - - [27/May/2025 08:39:03] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-05-27 08:39:03,164 INFO 127.0.0.1 - - [27/May/2025 08:39:03] "[36mGET /static/leaflet.css HTTP/1.1[0m" 304 -
+2025-05-27 08:39:03,816 INFO 127.0.0.1 - - [27/May/2025 08:39:03] "[36mGET /static/leaflet.js.map HTTP/1.1[0m" 304 -
+2025-05-27 08:39:04,180 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/core/Util.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,181 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/core/Class.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,185 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/core/Events.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,187 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geometry/Point.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,188 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/LatLngBounds.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,189 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/dom/DomEvent.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,199 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geometry/Bounds.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,200 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geometry/PolyUtil.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,201 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/LatLng.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,201 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/CRS.Simple.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,201 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/CRS.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,203 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/CRS.Earth.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,206 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/marker/Icon.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,209 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/marker/Icon.Default.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,213 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/projection/Projection.SphericalMercator.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,216 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/CircleMarker.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,218 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geometry/Transformation.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,220 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/GeoJSON.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,221 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/CRS.EPSG3857.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,225 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/Popup.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,227 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/SVG.Util.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,229 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/tile/GridLayer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,230 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/core/Browser.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,233 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/dom/DomEvent.Pointer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,234 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/dom/DomEvent.DoubleTap.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,236 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,238 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/dom/DomUtil.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,241 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.Drag.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,244 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.TapHold.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,246 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/dom/PosAnimation.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,248 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/Map.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,250 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/control/Control.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,252 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/control/Control.Layers.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,254 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/control/Control.Zoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,257 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/control/Control.Scale.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,259 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/control/Control.Attribution.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,262 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/core/Handler.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,263 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/control/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,265 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/core/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,267 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/dom/Draggable.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,269 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geometry/LineUtil.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,270 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/projection/Projection.LonLat.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,275 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/projection/Projection.Mercator.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,281 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/CRS.EPSG3395.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,284 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/CRS.EPSG4326.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,286 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/Layer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,288 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/geo/crs/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,289 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/LayerGroup.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,292 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/FeatureGroup.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,293 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/marker/Marker.Drag.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,294 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/marker/Marker.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,295 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Path.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,298 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Circle.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,300 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Polyline.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,302 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Polygon.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,304 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/ImageOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,306 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/VideoOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,308 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/SVGOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,309 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/DivOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,311 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/Tooltip.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,313 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/marker/DivIcon.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,316 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/marker/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,317 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/tile/TileLayer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,318 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/tile/TileLayer.WMS.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,321 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/tile/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,322 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Renderer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,324 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Canvas.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,326 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/SVG.VML.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,327 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/SVG.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,329 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Renderer.getRenderer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,332 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/Rectangle.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,333 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/layer/vector/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,335 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.BoxZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,337 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.DoubleClickZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,339 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.Keyboard.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,342 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.ScrollWheelZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,345 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/handler/Map.TouchZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:04,347 INFO 127.0.0.1 - - [27/May/2025 08:39:04] "[33mGET /src/map/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,081 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "GET / HTTP/1.1" 200 -
+2025-05-27 08:39:06,094 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[36mGET /static/leaflet.css HTTP/1.1[0m" 304 -
+2025-05-27 08:39:06,097 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[36mGET /static/leaflet.js HTTP/1.1[0m" 304 -
+2025-05-27 08:39:06,124 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,322 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "GET /get_roadnames HTTP/1.1" 200 -
+2025-05-27 08:39:06,590 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[36mGET /static/leaflet.js.map HTTP/1.1[0m" 304 -
+2025-05-27 08:39:06,748 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/core/Util.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,750 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/core/Class.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,752 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/core/Events.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,754 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geometry/Point.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,755 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geometry/Bounds.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,756 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/LatLngBounds.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,762 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/dom/DomEvent.Pointer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,763 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/control/Control.Zoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,765 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/control/Control.Attribution.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,767 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geometry/PolyUtil.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,771 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/LatLng.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,772 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/CRS.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,775 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/CRS.Earth.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,777 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/CircleMarker.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,779 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/projection/Projection.SphericalMercator.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,782 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Polyline.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,785 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Polygon.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,787 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geometry/Transformation.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,789 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/Popup.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,791 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/CRS.EPSG3857.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,793 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/SVG.Util.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,796 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/tile/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,798 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Renderer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,801 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/core/Browser.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,803 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/SVG.VML.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,805 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/dom/DomEvent.DoubleTap.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,808 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/dom/DomUtil.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,809 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/dom/DomEvent.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,812 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/dom/PosAnimation.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,815 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/Map.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,818 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/control/Control.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,821 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/control/Control.Layers.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,823 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/control/Control.Scale.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,826 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/core/Handler.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,827 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/control/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,829 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/core/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,834 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/dom/Draggable.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,838 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geometry/LineUtil.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,840 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/projection/Projection.LonLat.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,842 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/projection/Projection.Mercator.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,845 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/CRS.EPSG3395.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,846 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/CRS.EPSG4326.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,849 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/CRS.Simple.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,851 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/Layer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,854 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/geo/crs/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,856 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/LayerGroup.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,858 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/FeatureGroup.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,860 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/marker/Icon.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,863 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/marker/Icon.Default.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,865 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/marker/Marker.Drag.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,868 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/marker/Marker.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,870 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Path.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,872 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Circle.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,875 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/GeoJSON.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,879 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/ImageOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,884 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/VideoOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,887 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/SVGOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,892 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/DivOverlay.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,894 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/Tooltip.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,897 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/marker/DivIcon.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,902 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/marker/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,903 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/tile/GridLayer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,905 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/tile/TileLayer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,908 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/tile/TileLayer.WMS.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,911 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Canvas.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,914 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/SVG.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,917 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Renderer.getRenderer.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,919 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/Rectangle.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,921 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/vector/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,925 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/layer/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,928 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.BoxZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,930 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.DoubleClickZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,934 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.Drag.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,936 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.Keyboard.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,938 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.ScrollWheelZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,941 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.TapHold.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,943 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/handler/Map.TouchZoom.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:06,945 INFO 127.0.0.1 - - [27/May/2025 08:39:06] "[33mGET /src/map/index.js HTTP/1.1[0m" 404 -
+2025-05-27 08:39:08,857 INFO 127.0.0.1 - - [27/May/2025 08:39:08] "POST /get_road_geometry HTTP/1.1" 200 -
+2025-05-27 08:39:17,193 INFO 127.0.0.1 - - [27/May/2025 08:39:17] "POST /get_road_geometry HTTP/1.1" 200 -
+2025-05-27 08:39:19,120 INFO 127.0.0.1 - - [27/May/2025 08:39:19] "[35m[1mPOST /update_road_status HTTP/1.1[0m" 500 -
+2025-05-27 08:39:51,013 INFO  * Detected change in 'C:\\Users\\admin\\Downloads\\IT3160_MAP-main (1)\\IT3160_MAP-main\\app.py', reloading
+2025-05-27 08:39:51,396 INFO  * Restarting with stat
+2025-05-27 08:41:11,547 INFO  * Restarting with stat
+2025-05-27 08:41:23,907 INFO  * Restarting with stat
