@@ -11,7 +11,7 @@ G = ox.load_graphml('trungliet.graphml')
 
 
 # Đường dẫn tới file trungliet.graphml
-graphml_file = r'c:\Users\admin\Downloads\IT3160_MAP-main\IT3160_MAP-main\trungliet.graphml'
+graphml_file = r'trungliet.graphml'
 
 # Parse file graphml để lấy danh sách roadname
 tree = ET.parse(graphml_file)
